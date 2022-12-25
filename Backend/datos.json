@@ -1,0 +1,106 @@
+{
+    "paises":[
+    {
+        "paisesId": 0,
+        "name": "Egipto",
+        "usuariosId": 0,
+        "product_list":[
+            { "id": 1, "price": 10},
+            { "id": 10, "price": 30},
+            { "id": 12, "price": 20}
+        ]
+    },
+    {
+        "paisesId": 1,
+        "name": "España",
+        "usuariosId": 1,
+        "product_list": [
+            { "id": 15, "price": 59 },
+            { "id": 33, "price": 34 },
+            { "id": 47, "price": 71 },
+            { "id": 11, "price": 49 },
+            { "id": 24, "price": 78 },
+            { "id": 32, "price": 41 }
+        ]
+    },
+    {
+        "paisesId": 2,
+        "name": "México",
+        "usuariosId": 2,
+        "product_list": [
+            { "id": 3, "price": 25 },
+            { "id": 23, "price": 95 },
+            { "id": 42, "price": 16 },
+            { "id": 13, "price": 87 },
+            { "id": 35, "price": 62 },
+            { "id": 47, "price": 31 }
+        ]
+    },
+    {
+        "paisesId": 3,
+        "name": "Brasil",
+        "usuariosId": 3,
+        "product_list": [
+            { "id": 15, "price": 59 },
+            { "id": 33, "price": 34 },
+            { "id": 47, "price": 71 },
+            { "id": 11, "price": 49 },
+            { "id": 24, "price": 78 },
+            { "id": 32, "price": 41 }
+        ]
+    },
+    {
+        "paisesId": 4,
+        "name": "Argentina",
+        "usuariosId": 4,
+        "product_list": [
+            { "id": 3, "price": 25 },
+            { "id": 23, "price": 95 },
+            { "id": 42, "price": 16 },
+            { "id": 13, "price": 87 },
+            { "id": 35, "price": 62 },
+            { "id": 47, "price": 31 }
+        ]
+},
+{
+        "paisesId": 5,
+        "name": "Colombia",
+        "usuariosId": 5,
+        "product_list": [
+            { "id": 15, "price": 59 },
+            { "id": 33, "price": 34 },
+            { "id": 47, "price": 71 },
+            { "id": 11, "price": 49 },
+            { "id": 24, "price": 78 },
+            { "id": 32, "price": 41 }
+        ]
+},
+{
+        "paisesId": 6,
+        "name": "Perú",
+        "usuariosId": 6,
+        "product_list": [
+            { "id": 3, "price": 25 },
+            { "id": 23, "price": 95 },
+            { "id": 42, "price": 16 },
+            { "id": 13, "price": 87 },
+            { "id": 35, "price": 62 },
+            { "id": 47, "price": 31 }
+        ]
+}
+    ],
+    "producto":[
+        {"id":1, "name": "Cafe"},
+        {"id":10, "name": "Viajar en caballo"},
+        {"id":12, "name": "Montar en triciclo"}
+    ],
+    "usuario":[
+        {
+            "id":0,
+            "user": "alfonso41",
+            "email": "alfonso41@gmail.com",
+            "password": "aloha123$",
+            "dni": "8182312X"
+        }
+    ]
+}
