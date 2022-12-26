@@ -180,6 +180,23 @@ exports.getAllProductsFromCountry = (id, where, order, offset, limit) => {
   });
 };
 
+exports.checkUser = (user, password) => {
+  return new Promise((resolve, reject) => {
+    let valor = datos.usuario.find((i) => i.user === user && i.password === password);
+    if(!valor) reject(new Error(`El usuario no existe. Contacte con un administrador`));
+    resolve(JSON.parse(JSON.stringify(valor)));
+  });
+}
+
+
+exports.getAcces = (id, user_id) => {
+  return new Promise((resolve, reject) => {
+    let valor = datos.paises.find((i) => i.paisesId === parseInt(id) && i.usuariosId === parseInt(user_id));
+    if(valor === undefined) valor=false;
+    else valor=true;
+    resolve(JSON.parse(JSON.stringify(valor)));
+  });
+}
 
 /* Returns the element identified by (id).
    id: Element identification. 

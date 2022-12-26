@@ -15,12 +15,12 @@
         "name": "España",
         "usuariosId": 1,
         "product_list": [
-            { "id": 15, "price": 59 },
-            { "id": 33, "price": 34 },
-            { "id": 47, "price": 71 },
+            { "id": 9, "price": 59 },
+            { "id": 8, "price": 34 },
+            { "id": 7, "price": 71 },
             { "id": 11, "price": 49 },
-            { "id": 24, "price": 78 },
-            { "id": 32, "price": 41 }
+            { "id": 6, "price": 78 },
+            { "id": 5, "price": 41 }
         ]
     },
     {
@@ -29,11 +29,11 @@
         "usuariosId": 2,
         "product_list": [
             { "id": 3, "price": 25 },
-            { "id": 23, "price": 95 },
-            { "id": 42, "price": 16 },
-            { "id": 13, "price": 87 },
-            { "id": 35, "price": 62 },
-            { "id": 47, "price": 31 }
+            { "id": 4, "price": 95 },
+            { "id": 3, "price": 16 },
+            { "id": 2, "price": 87 },
+            { "id": 13, "price": 62 },
+            { "id": 7, "price": 31 }
         ]
     },
     {
@@ -41,12 +41,12 @@
         "name": "Brasil",
         "usuariosId": 3,
         "product_list": [
-            { "id": 15, "price": 59 },
-            { "id": 33, "price": 34 },
-            { "id": 47, "price": 71 },
+            { "id": 9, "price": 59 },
+            { "id": 8, "price": 34 },
+            { "id": 7, "price": 71 },
             { "id": 11, "price": 49 },
-            { "id": 24, "price": 78 },
-            { "id": 32, "price": 41 }
+            { "id": 6, "price": 78 },
+            { "id": 5, "price": 41 }
         ]
     },
     {
@@ -55,11 +55,11 @@
         "usuariosId": 4,
         "product_list": [
             { "id": 3, "price": 25 },
-            { "id": 23, "price": 95 },
-            { "id": 42, "price": 16 },
-            { "id": 13, "price": 87 },
-            { "id": 35, "price": 62 },
-            { "id": 47, "price": 31 }
+            { "id": 4, "price": 95 },
+            { "id": 3, "price": 16 },
+            { "id": 2, "price": 87 },
+            { "id": 13, "price": 62 },
+            { "id": 7, "price": 31 }
         ]
 },
 {
@@ -67,12 +67,12 @@
         "name": "Colombia",
         "usuariosId": 5,
         "product_list": [
-            { "id": 15, "price": 59 },
-            { "id": 33, "price": 34 },
-            { "id": 47, "price": 71 },
+            { "id": 9, "price": 59 },
+            { "id": 8, "price": 34 },
+            { "id": 7, "price": 71 },
             { "id": 11, "price": 49 },
-            { "id": 24, "price": 78 },
-            { "id": 32, "price": 41 }
+            { "id": 6, "price": 78 },
+            { "id": 5, "price": 41 }
         ]
 },
 {
@@ -81,26 +81,43 @@
         "usuariosId": 6,
         "product_list": [
             { "id": 3, "price": 25 },
-            { "id": 23, "price": 95 },
-            { "id": 42, "price": 16 },
-            { "id": 13, "price": 87 },
-            { "id": 35, "price": 62 },
-            { "id": 47, "price": 31 }
+            { "id": 4, "price": 95 },
+            { "id": 3, "price": 16 },
+            { "id": 2, "price": 87 },
+            { "id": 13, "price": 62 },
+            { "id": 7, "price": 31 }
         ]
 }
     ],
     "producto":[
-        {"id":1, "name": "Cafe"},
+        {"id":1, "name": "1 Cafe"},
+        {"id":2, "name": "1 KG Harina"},
+        {"id":3, "name": "1L leche"},
+        {"id":4, "name": "1 KG Avena"},
+        {"id":5, "name": "1 Kebab"},
+        {"id":6, "name": "1 L agua"},
+        {"id":7, "name": "1 KG Pollo"},
+        {"id":8, "name": "1 KG ternera"},
+        {"id":9, "name": "1 KG arroz"},
         {"id":10, "name": "Viajar en caballo"},
-        {"id":12, "name": "Montar en triciclo"}
+        {"id":11, "name": "Un corte de pelo"},
+        {"id":12, "name": "Montar en triciclo"},
+        {"id":13, "name": "1 KG Almendras"}
     ],
     "usuario":[
         {
             "id":0,
             "user": "alfonso41",
             "email": "alfonso41@gmail.com",
-            "password": "aloha123$",
-            "dni": "8182312X"
+            "password": "aloha14$",
+            "dni": "818412X"
+        },
+        {
+            "id":1,
+            "user": "a",
+            "email": "a@gmail.com",
+            "password": "a",
+            "dni": "1231342X"
         }
     ]
 }

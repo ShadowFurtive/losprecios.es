@@ -75,20 +75,33 @@ const getAllPaisesProductsController = (req, res, next) => {
 };
 
 // POST /tasks
-const createController = (req, res, next) => {
-  let {title, done} = req.body;
-  done = (typeof done !== 'undefined') ? JSON.parse(done) : false;
-  if(!title)
-    throw Error('title is required');
+const loginController = (req, res, next) => {
+  let {user, password} = req.body;
+  if(!user || !password)
+    throw Error('user and password is required');
 
-  components_model.add(title, done)
-  .then(() => {
+  components_model.checkUser(user, password)
+  .then((valor) => {
     res.status(201).send({
       success: 'true',
-      message: 'task added successfully',
+      message: valor.id,
     });
   })
-  .catch(error => {next(Error(`task not created:\n${error}`));});
+  .catch(error => {next(Error(`User not exist:\n${error}`));});
+};
+
+const getAccesController = (req, res, next) => {
+  let {id, user_id} = req.body;
+  if(!id)
+    throw Error('Id country are required');
+  components_model.getAcces(id, user_id)
+  .then((valor) => {
+    res.status(201).send({
+      success: 'true',
+      message: valor,
+    });
+  })
+  .catch(error => {next(Error(`User and country doesn't have correlation:\n${error}`));});
 };
 
 // PUT /tasks/1
@@ -187,9 +200,11 @@ const headersController = (req, res, next) => {
 app.use   ('*',                 logController);
 app.use   ('*',                 headersController);
 
+app.post ('/', loginController);
 app.get   (['/', '/paises'],     getAllPaisesController);
+app.post ('/paises', getAccesController);
 app.get   ('/paises/count',     countPaisesController);
-app.get   ('/paises/:id/',     getAllPaisesProductsController);
+app.get   ('/paises/:id',     getAllPaisesProductsController);
 app.get   ('/paises/:id/count',     countPaisesProductsController);
 
 /* Add the 7 missing routes with the proper HTTP verbs that call to

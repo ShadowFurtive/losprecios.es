@@ -7,45 +7,153 @@ $(function() {
       this.name = name;
       this.id = id;
       this.url = ajaxUrl;
-      ComponentsVC.prototype.componentList = function(components) {
-        console.log("hola");
+      this.userId;
+
+      ComponentsVC.prototype.countriesList = function(components) {
         return `
         <span class="nobr"><input type="text" class="search" value="${this.search}" placeholder="Search" onfocus="let v=this.value; this.value=''; this.value=v"> <img class="dsearch" title="Clean Search" src="public/icon_delete.png"/></span>
+        <button type="button" class="login" title="login">Login</button>
         ` +
         components.reduce(
           (ac, component) => ac += 
           `<div>
-          <button type="button" class="edit"   componentid="${component.id}" title="Edit"  > ${component.name} </button>
+          <button type="button" class="showproducts"   componentid="${component.paisesId}" title="showproducts"  > ${component.name} </button>
           
           </div>\n`, 
           "");
       };
-      
-      ComponentsVC.prototype.listController = function() {
+
+      ComponentsVC.prototype.productsList = function(productos, user_permissions) {
+        if(!user_permissions)
+        return `
+        <span class="nobr"><input type="text" class="search" value="${this.search}" placeholder="Search" onfocus="let v=this.value; this.value=''; this.value=v"> <img class="dsearch" title="Clean Search" src="public/icon_delete.png"/></span>
+        ` +
+        productos.reduce(
+          (ac, producto) => ac += 
+          `<div>
+          <label>${producto.name}  ${producto.price}</label>
+          </div>\n`, 
+          "");
+        else
+        return `
+        <span class="nobr"><input type="text" class="search" value="${this.search}" placeholder="Search" onfocus="let v=this.value; this.value=''; this.value=v"> <img class="dsearch" title="Clean Search" src="public/icon_delete.png"/></span>
+        ` +
+        productos.reduce(
+          (ac, producto) => ac += 
+          `<div>
+          <button type="button" class="editproducto"   productoid="${producto.id}" title="editproducto"  > Edit</button>
+          <label>${producto.name}  ${producto.price}</label>
+          </div>\n`, 
+          "");
+      };
+
+      ComponentsVC.prototype.loginForm = function() {
+        return `
+       <label for="username">Nombre de usuario:</label><br>
+       <input type="text" id="username" name="username"><br>
+       <label for="password">Contraseña:</label><br>
+       <input type="password" id="password" name="password"><br><br>
+       <input class="submit" type="submit" value="Iniciar sesión">
+        `
+      };
+    
+      ComponentsVC.prototype.editProduct = function(id) {
+        return `
+       <h1>Editar el precio de ${id}</h1>
+       <label for="new_price">Precio nuevo de:</label><br>
+       <input type="number" id="new_price" name="new_price"><br>
+       <input class="edit_product_submit" type="submit" productoid=${id} value="Modificar precio">
+        `
+      };
+
+      ComponentsVC.prototype.countriesController = function() {
         let where = {};
         let params = [where];
-        let p1 = $.ajax({
+        $.ajax({
           dataType: "json",
           url: this.url+'/paises',
-        });
-        let p2 = $.ajax({
-          dataType: "json",
-          url: this.url + '/paises/count',
-        });
-        Promise.all([p1, p2])
-        .then(([r1, r2]) => {
+        })
+        .then(r1 => {
           let paises = r1.message;
-          $(this.id).html(this.componentList(paises));
+          $(this.id).html(this.countriesList(paises));
           if (this.search) $(this.id+' .search').focus();
         })
         .catch(error => {console.error(error.status, error.responseText);});
       };
       
+      ComponentsVC.prototype.editProductController = function(id) {
+        $(this.id).html(this.editProduct(id));
+      }
+
+      ComponentsVC.prototype.submitEditProductController = function(id) {
+        let price = $(this.id+' input[name=new_price]').val();
+        $.ajax({
+          dataType: "json",
+          method: "POST",
+          url: this.url + '/paises',
+          data: {id, price}
+        })
+        .then(() => {
+          this.productsController(Number($(e.currentTarget).attr('componentid')), this.userId);
+        })
+        .catch(error => {console.error(error.status, error.responseText);});
+      };
+
+      ComponentsVC.prototype.loginController = function() {
+        $(this.id).html(this.loginForm());
+      };
+
+      ComponentsVC.prototype.productsController = function(id, user_id) {
+        let p1 = $.ajax({
+          dataType: "json",
+          url: this.url + '/paises/' + id,
+        });
+        let p2 = $.ajax({
+          dataType: "json",
+          method: "POST",
+          url: this.url + '/paises',
+          data: {id, user_id}
+        });
+        Promise.all([p1, p2])
+        .then(([r1, r2]) => {
+          let productos = r1.message;
+          let user_permissions = r2.message;
+          $(this.id).html(this.productsList(productos, user_permissions));
+          if (this.search) $(this.id+' .search').focus();
+        })
+        .catch(error => {console.error(error.status, error.responseText);});
+      };
+
+      ComponentsVC.prototype.submitController = function() {
+        let user = $(this.id+' input[name=username]').val();
+        let password = $(this.id+' input[name=password]').val();
+        console.log(user);
+        console.log(password);
+        $.ajax({
+          dataType: "json",
+          method: "POST",
+          url: this.url,
+          data: {user, password}
+        })
+        .then(r => {
+          this.userId=r.message;
+          this.countriesController();
+        })
+        .catch(error => {console.error(error.status, error.responseText)}) 
+      };
+
+
       ComponentsVC.prototype.eventsController = function() {
-        $(document).on('input', this.itaskListd+' .search', () => {this.search = $(this.id+' .search').val(); this.listController();});
+        $(document).on('click', this.id+' .showproducts',   (e)=> this.productsController(Number($(e.currentTarget).attr('componentid')), this.userId));
+        $(document).on('input', this.id+' .search', () => {this.search = $(this.id+' .search').val(); this.countriesController();});
+        $(document).on('click', this.id+' .login', () => this.loginController());
+        $(document).on('click', this.id+' .submit', () => this.submitController());
+        $(document).on('click', this.id+' .editproducto', () => this.editProductController(Number($(e.currentTarget).attr('productoid'))));
+        $(document).on('click', this.id+' .edit_product_submit', () => this.submitEditProductController(Number($(e.currentTarget).attr('productoid'))));
+        
       };
     
-      this.listController();
+      this.countriesController();
       this.eventsController();     
     }
     
