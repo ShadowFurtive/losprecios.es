@@ -9,23 +9,33 @@ $(function() {
       this.url = ajaxUrl;
       this.userId;
 
+      ComponentsVC.prototype.generateLine = function() {
+        let size_x = Window.width();
+        size_x = size_x / 15;
+        let char = "_";
+        while(size_x > 0){
+          char +=  "_";
+        }
+        return char;
+      };
+
       ComponentsVC.prototype.countriesList = function(components) {
-        return `
+        return this.generateLine + `
         <span class="nobr"><input type="text" class="search" value="${this.search}" placeholder="Search" onfocus="let v=this.value; this.value=''; this.value=v"> <img class="dsearch" title="Clean Search" src="public/icon_delete.png"/></span>
-        <button type="button" class="login" title="login">Login</button>
-        ` +
+        <div class="groupProduct">` +
         components.reduce(
           (ac, component) => ac += 
           `<div>
           <button type="button" class="showproducts"   componentid="${component.paisesId}" title="showproducts"  > ${component.name} </button>
           
           </div>\n`, 
-          "");
+          ""); +  
+          '</div>'
       };
 
       ComponentsVC.prototype.productsList = function(productos, user_permissions) {
         if(!user_permissions)
-        return `
+        return this.generateLine + `
         <span class="nobr"><input type="text" class="search" value="${this.search}" placeholder="Search" onfocus="let v=this.value; this.value=''; this.value=v"> <img class="dsearch" title="Clean Search" src="public/icon_delete.png"/></span>
         ` +
         productos.reduce(
@@ -35,7 +45,7 @@ $(function() {
           </div>\n`, 
           "");
         else
-        return `
+        return this.generateLine + `
         <span class="nobr"><input type="text" class="search" value="${this.search}" placeholder="Search" onfocus="let v=this.value; this.value=''; this.value=v"> <img class="dsearch" title="Clean Search" src="public/icon_delete.png"/></span>
         ` +
         productos.reduce(
@@ -48,7 +58,7 @@ $(function() {
       };
 
       ComponentsVC.prototype.loginForm = function() {
-        return `
+        return this.generateLine + `
        <label for="username">Nombre de usuario:</label><br>
        <input type="text" id="username" name="username"><br>
        <label for="password">Contraseña:</label><br>
@@ -58,7 +68,7 @@ $(function() {
       };
     
       ComponentsVC.prototype.editProduct = function(id) {
-        return `
+        return this.generateLine + `
        <h1>Editar el precio de ${id}</h1>
        <label for="new_price">Precio nuevo de:</label><br>
        <input type="number" id="new_price" name="new_price"><br>
@@ -101,6 +111,11 @@ $(function() {
 
       ComponentsVC.prototype.loginController = function() {
         $(this.id).html(this.loginForm());
+      };
+
+
+      ComponentsVC.prototype.goBackController = function() {
+        this.countriesList();
       };
 
       ComponentsVC.prototype.productsController = function(id, user_id) {
@@ -146,7 +161,8 @@ $(function() {
       ComponentsVC.prototype.eventsController = function() {
         $(document).on('click', this.id+' .showproducts',   (e)=> this.productsController(Number($(e.currentTarget).attr('componentid')), this.userId));
         $(document).on('input', this.id+' .search', () => {this.search = $(this.id+' .search').val(); this.countriesController();});
-        $(document).on('click', this.id+' .login', () => this.loginController());
+        $(document).on('click', '.login', () => this.loginController());
+        $(document).on('click', '.goback', () => this.goBackController());
         $(document).on('click', this.id+' .submit', () => this.submitController());
         $(document).on('click', this.id+' .editproducto', () => this.editProductController(Number($(e.currentTarget).attr('productoid'))));
         $(document).on('click', this.id+' .edit_product_submit', () => this.submitEditProductController(Number($(e.currentTarget).attr('productoid'))));
