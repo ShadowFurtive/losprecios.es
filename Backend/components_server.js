@@ -104,6 +104,35 @@ const getAccesController = (req, res, next) => {
   .catch(error => {next(Error(`User and country doesn't have correlation:\n${error}`));});
 };
 
+const getProduct = (req, res, next) => {
+  let id = Number(req.params.id);
+  if(!id)
+    throw Error('Id product are required');
+  components_model.getProduct(id)
+  .then((producto) => {
+    res.status(201).send({
+      success: 'true',
+      message: producto,
+    });
+  })
+  .catch(error => {next(Error(`Product for country doesn't exist:\n${error}`));});
+};
+
+const modifyProduct = (req, res, next) => {
+  let idpais = Number(req.params.id);
+  let {id, price} = req.body;
+  if(!idpais || !id || !price)
+    throw Error('Id product,  Id country and price are required');
+  components_model.modifyProduct(idpais, id, price)
+  .then(() => {
+    res.status(201).send({
+      success: 'true',
+      message: 'Done',
+    });
+  })
+  .catch(error => {next(Error(`Product for country doesn't exist:\n${error}`));});
+};
+
 
 /* // PATCH /tasks/1/switch
 const switchController = (req, res, next) => {
@@ -161,8 +190,10 @@ app.use   ('*',                 headersController);
 app.post ('/', loginController);
 app.get   (['/', '/paises'],     getAllPaisesController);
 app.post ('/paises', getAccesController);
+app.post ('/paises/:id/product', modifyProduct);
 app.get   ('/paises/count',     countPaisesController);
 app.get   ('/paises/:id',     getAllPaisesProductsController);
+app.get   ('/product/:id',     getProduct);
 app.get   ('/paises/:id/count',     countPaisesProductsController);
 
 

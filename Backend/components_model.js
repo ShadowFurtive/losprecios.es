@@ -198,18 +198,17 @@ exports.getAcces = (id, user_id) => {
   });
 }
 
-/* Returns the element identified by (id).
-   id: Element identification. 
-exports.get = id => {
+// Returns the element identified by (id). id: Element identification. 
+exports.getProduct = idProducto => {
   return new Promise((resolve, reject) => {
-    const task = datos[id];
-    if (typeof task === "undefined") {
+    const dato = datos.producto.find((i) => i.id === parseInt(idProducto));
+    if (typeof dato === "undefined") {
       reject(new Error(`El valor del parámetro id no es válido.`));
     } else {
-      resolve(JSON.parse(JSON.stringify(task)));
+      resolve(JSON.parse(JSON.stringify(dato)));
     }
   });
-}; */
+}; 
 
 /* Adds a new element
    title: String with the task title.
@@ -231,13 +230,17 @@ exports.add = (title, done) => {
    id: Element identification.
    title: String with the task title.
    done: Boolean explaining if the task is done or not. */
-exports.update = (idPais, idProducto, price) => {
+exports.modifyProduct = (idPais, idProducto, price) => {
   return new Promise((resolve, reject) => {
-    const dato = datos.paises[idPais].product_list[idProducto];
+    const dato = datos.paises[idPais].product_list.find((i) => i.id === parseInt(idProducto));
     if (typeof dato === "undefined") {
       reject(new Error(`El valor del parámetro id no es válido.`));
     } else {
-      datos.paises[idPais].product_list[idProducto].price=price;
+      datos.paises[idPais].product_list.forEach(element => {
+        if (element.id === parseInt(idProducto)) {
+          element.price = price;
+        }
+      });
       save();
       resolve();
     }

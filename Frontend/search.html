@@ -3,19 +3,26 @@
 <head>
   <title>Precios locales</title>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles/style.css">
 </head>
 
 <body>
-    <div class="parteSuperior">
-        <h1>LOSPRECIOS.ES</h1>
-        <span><button type="button" class="login" title="login">Login</button><img src="img/login.png" style="float:right; margin-left: 10px;"></img></span>
-        <button type="button" class="goback" title="goback">Back</button>
-    </div>
-    <div id="ParteInferior">
-        <div id="components"></div>
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="components_view_controller.js"></script>
+    <div class="cuerpo">
+        <div class="parteSuperior">
+            <h1 id="title">LOSPRECIOS.ES</h1>
+            <div class="barraBotones">
+            <button class="button-50 login" type="button" id="login" title="login">Login</button>
+            <label class="button-50 login" id="logged">Logged!</label>
+            <button class="button-50 goback" type="button" title="goback">Main page</button>
+            </div>
+        </div>
+        <hr>
+        <div id="ParteInferior">
+            <div id="components"></div>
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="components_view_controller.js"></script>
+        </div>
     </div>
 </body>
 </html>
