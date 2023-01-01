@@ -51,10 +51,10 @@ const getAllPaisesController = (req, res, next) => {
   // components_model.getAll(...params)
   let params = (typeof req.query.params !== 'undefined') ? JSON.parse(req.query.params) : [];
   components_model.getAllCountries.apply(this, params)
-  .then(tasks => {
+  .then(countries => {
     res.status(201).send({
       success: 'true',
-      message: tasks,
+      message: countries,
     });
   })
   .catch(error => {next(Error(`DB Error:\n${error}`));});
@@ -64,11 +64,11 @@ const getAllPaisesController = (req, res, next) => {
 const getAllPaisesProductsController = (req, res, next) => {
   let id = Number(req.params.id);
   let params = (typeof req.query.params !== 'undefined') ? JSON.parse(req.query.params) : [];
-  components_model.getAllProductsFromCountry(id, this, params)
-  .then((task) => {
+  components_model.getAllProductsFromCountry(id, params)
+  .then(products => {
     res.status(201).send({
       success: 'true',
-      message: task,
+      message: products,
     });
   })
   .catch(error => {next(Error(`DB error:\n${error}`));});

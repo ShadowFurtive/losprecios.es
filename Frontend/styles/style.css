@@ -212,6 +212,11 @@ h1{
   font-size: 18px;
 }
 
+.parteSuperiorIzquierda{
+  display: flex;
+  justify-content: space-between;
+}
+
 .oneProductEdit button{
   margin-top: 10px;
   align-items: center;
@@ -355,4 +360,12 @@ h1{
   -webkit-box-shadow: inset 66px 0px 0px 0px rgba(154,153,150,0.7);
   -moz-box-shadow: inset 66px 0px 0px 0px rgba(154,153,150,0.7);
   -box-shadow: inset 66px 0px 0px 0px rgba(154,153,150,0.7);   
+}
+
+.goback{
+  margin: auto;
+  margin-left: 10px;
+  padding: 6px 20px;
+  width: 50%;
+  height: 50%;
 }

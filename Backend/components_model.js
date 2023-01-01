@@ -157,8 +157,24 @@ exports.getAllCountries = (where, order, offset, limit) => {
   order  = (typeof order  !== 'undefined') ?  order : {};
   offset = (typeof offset !== 'undefined') ?  offset : 0;
   limit  = (typeof limit  !== 'undefined') ?  limit : 0;
+  console.log(where);
   return new Promise((resolve, reject) => {
-    resolve(JSON.parse(JSON.stringify(datos.paises)));
+    datos.paises.map((e, i) => e.id = i);
+    let t = datos.paises.filter(e => {
+      for (let f in where) {
+        let ok = false;
+        console.log(where[f]);
+        if (where[f] instanceof Array) {
+          let val = where[f][0];
+          ok = e.name.toLowerCase().includes(val.toLowerCase());
+        } else {// No operator means === operator
+          ok = e === where[f];
+        }
+        if (!ok) return false;
+      }
+      return true;
+    });
+    resolve(JSON.parse(JSON.stringify(t)));
   });
 };
 
@@ -167,6 +183,7 @@ exports.getAllProductsFromCountry = (id, where, order, offset, limit) => {
   order  = (typeof order  !== 'undefined') ?  order : {};
   offset = (typeof offset !== 'undefined') ?  offset : 0;
   limit  = (typeof limit  !== 'undefined') ?  limit : 0;
+  console.log(where[0].product);
   return new Promise((resolve, reject) => {
     let datos_aux=datos.paises[id].product_list;
     const listaNueva =  datos_aux.map((item) =>{
@@ -176,7 +193,15 @@ exports.getAllProductsFromCountry = (id, where, order, offset, limit) => {
         name: valor.name,
       };
     });
-    resolve(JSON.parse(JSON.stringify(listaNueva)));
+    let val="";
+    if(where[0].product != undefined) val = where[0].product[0];
+    if(val != ""){
+      let t = listaNueva.filter(e => { return e.name.toLowerCase().includes(val.toLowerCase()); });
+      console.log(t);
+      resolve(JSON.parse(JSON.stringify(t)));
+    }
+    else resolve(JSON.parse(JSON.stringify(listaNueva)));
+
   });
 };
 
@@ -238,7 +263,7 @@ exports.modifyProduct = (idPais, idProducto, price) => {
     } else {
       datos.paises[idPais].product_list.forEach(element => {
         if (element.id === parseInt(idProducto)) {
-          element.price = price;
+          element.price = Number(price);
         }
       });
       save();
