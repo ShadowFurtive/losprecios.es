@@ -99,6 +99,7 @@ $(function() {
        <input class="edit_product_submit enviar_info" type="submit" paisid=${paisid} productoid=${producto.id} value="Modificar precio">
         `
       };
+      
 
       ComponentsVC.prototype.countriesController = function() {
         $('#mainpage').hide();
@@ -141,6 +142,14 @@ $(function() {
         })
         .then(() => {
           this.productsController(paisid, this.userId);
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'The price has been modified',
+            showConfirmButton: false,
+            timer: 1750,
+            toast: true
+          })
         })
         .catch(error => {console.error(error.status, error.responseText);});
       };
@@ -201,8 +210,27 @@ $(function() {
           $('#login').hide();
           $('#logout').show();
           this.countriesController();
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Logged correctly',
+            showConfirmButton: false,
+            timer: 1750,
+            toast: true
+          })
         })
-        .catch(error => {console.error(error.status, error.responseText)}) 
+        .catch(error => {
+          console.error(error.status, error.responseText);
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'User or password incorrect',
+            text: 'If not contact with the administrator',
+            showConfirmButton: false,
+            timer: 3000,
+            toast: true
+          })
+        }) 
       };
 
 
