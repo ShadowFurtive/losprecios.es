@@ -102,7 +102,6 @@ $(function() {
       
 
       ComponentsVC.prototype.countriesController = function() {
-        $('#mainpage').hide();
         let where = {};
         if (this.search)
           where.country = [this.search];
@@ -155,13 +154,20 @@ $(function() {
       };
 
       ComponentsVC.prototype.loginController = function() {
-        $('#mainpage').show();
         $(this.id).html(this.loginForm());
       };
       ComponentsVC.prototype.logoutController = function() {
         this.userId=null;
         $('#login').show();
-        $('#logout').hide();  
+        $('#logout').hide(); 
+        Swal.fire({
+          position: 'bottom-end',
+          icon: 'success',
+          title: 'Logged correctly',
+          showConfirmButton: false,
+          timer: 1750,
+          toast: true
+        }) 
         this.countriesController();
       };
 
@@ -170,7 +176,6 @@ $(function() {
       };
 
       ComponentsVC.prototype.productsController = function(id, user_id) {
-        $('#mainpage').show();
         let where = {};
         if (this.searchProduct)
           where.product = [this.searchProduct];
@@ -211,9 +216,9 @@ $(function() {
           $('#logout').show();
           this.countriesController();
           Swal.fire({
-            position: 'top-end',
+            position: 'bottom-end',
             icon: 'success',
-            title: 'Logged correctly',
+            title: 'Loggout correctly',
             showConfirmButton: false,
             timer: 1750,
             toast: true
@@ -248,8 +253,7 @@ $(function() {
         $(document).on('click', '.logout', () => this.logoutController());
         
       };
-      
-      $('#mainpage').hide();
+      $('#title').show();
       $('#logout').hide();
       this.countriesController();
       this.eventsController();     

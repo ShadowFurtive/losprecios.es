@@ -53,117 +53,13 @@ const save = () => {
 };
 
 
-/* Returns the number of elements that meet the conditions (where)
-   where:  Object with conditions to filter the elements. Example:
-           {a: 3, b: ['<', 5], c: ['includes', "A"]} computes a===3 && b<5 && c.includes("A") */
-exports.countPaises = (where) => {
-  where = (typeof where !== 'undefined') ?  where : {};
-  return new Promise((resolve, reject) => {
-    if (Object.keys(where).length === 0)
-      resolve(datos.paises.length);
-    else {
-      let t = datos.paises.filter(e => {
-        for (let f in where) {
-          let ok = false;
-          if (where[f] instanceof Array) {
-            let operator = where[f][0];
-            let val = where[f][1];
-            switch(operator) {
-              case "includes":
-                ok = e[f].includes(val);
-                break;
-              case "!==":
-                ok = e[f] !== val;
-                break;
-              case "<":
-                ok = e[f] < val;
-                break;
-              case "<=":
-                ok = e[f] <= val;
-                break;
-              case ">":
-                ok = e[f] > val;
-                break;
-              case ">=":
-                ok = e[f] >= val;
-                break;
-            }
-          } else {// No operator means === operator
-            ok = e[f] === where[f];
-          }
-          if (!ok) return false;
-        }
-        return true;
-      });
-      resolve(t.length);
-    }
-  });
-};
-
-exports.countPaisesProductos = (id, where) => {
-  where = (typeof where !== 'undefined') ?  where : {};
-  return new Promise((resolve, reject) => {
-    if (Object.keys(where).length === 0)
-      resolve(datos.paises[id].product_list.length);
-    else {
-      let t = datos.paises[id].product_list.filter(e => {
-        for (let f in where) {
-          let ok = false;
-          if (where[f] instanceof Array) {
-            let operator = where[f][0];
-            let val = where[f][1];
-            switch(operator) {
-              case "includes":
-                ok = e[f].includes(val);
-                break;
-              case "!==":
-                ok = e[f] !== val;
-                break;
-              case "<":
-                ok = e[f] < val;
-                break;
-              case "<=":
-                ok = e[f] <= val;
-                break;
-              case ">":
-                ok = e[f] > val;
-                break;
-              case ">=":
-                ok = e[f] >= val;
-                break;
-            }
-          } else {// No operator means === operator
-            ok = e[f] === where[f];
-          }
-          if (!ok) return false;
-        }
-        return true;
-      });
-      resolve(t.length);
-    }
-  });
-};
-
-
-/* Returns (limit) elements that meet the conditions (where) bypassing the first (offset).
-   where:  Object with conditions to filter the elements. Example:
-           {a: 3, b: ['<', 5], c: ['includes', "A"]} computes a===3 && b<5 && c.includes("A")
-   order:  Object with fields+booleans to sort the element. Example:
-           {a: true, b: false} Ascending order by a field and descending order by b field.
-   offset: First elements to bypass. 0 to start by the first.
-   limit:  Number of elements to return. 0 to reach the last. */
-exports.getAllCountries = (where, order, offset, limit) => {
+exports.getAllCountries = (where) => {
   where  = (typeof where  !== 'undefined') ?  where : {};
-  order  = (typeof order  !== 'undefined') ?  order : {};
-  offset = (typeof offset !== 'undefined') ?  offset : 0;
-  limit  = (typeof limit  !== 'undefined') ?  limit : 0;
-  console.log(where);
   return new Promise((resolve, reject) => {
     datos.paises.map((e, i) => e.id = i);
     let t = datos.paises.filter(e => {
       for (let f in where) {
         let ok = false;
-        console.log(where[f]);
         if (where[f] instanceof Array) {
           let val = where[f][0];
           ok = e.name.toLowerCase().includes(val.toLowerCase());
@@ -178,16 +74,12 @@ exports.getAllCountries = (where, order, offset, limit) => {
   });
 };
 
-exports.getAllProductsFromCountry = (id, where, order, offset, limit) => {
+exports.getAllProductsFromCountry = (id, where) => {
   where  = (typeof where  !== 'undefined') ?  where : {};
-  order  = (typeof order  !== 'undefined') ?  order : {};
-  offset = (typeof offset !== 'undefined') ?  offset : 0;
-  limit  = (typeof limit  !== 'undefined') ?  limit : 0;
-  console.log(where[0].product);
   return new Promise((resolve, reject) => {
-    let datos_aux=datos.paises[id].product_list;
+    let datos_aux=datos.paises[id].productosList;
     const listaNueva =  datos_aux.map((item) =>{
-      let valor = datos.producto.find((i) => i.id === item.id);
+      let valor = datos.productos.find((i) => i.id === item.id);
       return {
         ...item,
         name: valor.name,
@@ -207,7 +99,7 @@ exports.getAllProductsFromCountry = (id, where, order, offset, limit) => {
 
 exports.checkUser = (user, password) => {
   return new Promise((resolve, reject) => {
-    let valor = datos.usuario.find((i) => i.user === user && i.password === password);
+    let valor = datos.usuarios.find((i) => i.user === user && i.password === password);
     if(!valor) reject(new Error(`El usuario no existe. Contacte con un administrador`));
     resolve(JSON.parse(JSON.stringify(valor)));
   });
@@ -223,10 +115,9 @@ exports.getAcces = (id, user_id) => {
   });
 }
 
-// Returns the element identified by (id). id: Element identification. 
 exports.getProduct = idProducto => {
   return new Promise((resolve, reject) => {
-    const dato = datos.producto.find((i) => i.id === parseInt(idProducto));
+    const dato = datos.productos.find((i) => i.id === parseInt(idProducto));
     if (typeof dato === "undefined") {
       reject(new Error(`El valor del parámetro id no es válido.`));
     } else {
@@ -235,33 +126,13 @@ exports.getProduct = idProducto => {
   });
 }; 
 
-/* Adds a new element
-   title: String with the task title.
-   done: Boolean explaining if the task is done or not. 
-exports.add = (title, done) => {
-  done = (typeof done !== 'undefined') ?  done : false;  
-  return new Promise((resolve, reject) => {
-    datos.push({
-      title: (title || "").trim(),
-      done
-    });
-    save();
-    resolve();
-  });
-}; */
-
-
-/* Updates the element identified by (id).
-   id: Element identification.
-   title: String with the task title.
-   done: Boolean explaining if the task is done or not. */
 exports.modifyProduct = (idPais, idProducto, price) => {
   return new Promise((resolve, reject) => {
-    const dato = datos.paises[idPais].product_list.find((i) => i.id === parseInt(idProducto));
+    const dato = datos.paises[idPais].productosList.find((i) => i.id === parseInt(idProducto));
     if (typeof dato === "undefined") {
       reject(new Error(`El valor del parámetro id no es válido.`));
     } else {
-      datos.paises[idPais].product_list.forEach(element => {
+      datos.paises[idPais].productosList.forEach(element => {
         if (element.id === parseInt(idProducto)) {
           element.price = Number(price);
         }
@@ -271,23 +142,6 @@ exports.modifyProduct = (idPais, idProducto, price) => {
     }
   });
 };
-
-
-/* Deletes the element identified by (id).
-   id: Element identification. 
-exports.delete = id => {
-  return new Promise((resolve, reject) => {
-    const task = datos[id];
-    if (typeof task === "undefined") {
-      reject(new Error(`El valor del parámetro id no es válido.`));
-    } else {
-      datos.splice(id, 1);
-      save();
-      resolve();
-    }
-  });
-}; */
-
 
 
 // Carrega els elements guardats en el fitxer si existeix.

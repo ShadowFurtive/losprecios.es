@@ -18,35 +18,6 @@ const components_model = require('./components_model');
 
 // CONTROLLER
 
-// GET /tasks/count
-const countPaisesController = (req, res, next) => {
-  let params = (typeof req.query.params !== 'undefined') ? JSON.parse(req.query.params) : [];
-  // components_model.count(...params)
-  components_model.countPaises(this, params)
-  .then(total => {
-    res.status(201).send({
-      success: 'true',
-      message: total,
-    });
-  })
-  .catch(error => {next(Error(`DB Error:\n${error}`));});
-};
-
-const countPaisesProductsController = (req, res, next) => {
-  let id = Number(req.params.id);
-  let params = (typeof req.query.params !== 'undefined') ? JSON.parse(req.query.params) : [];
-  // components_model.count(...params)
-  components_model.countPaisesProductos(id, this, params)
-  .then(total => {
-    res.status(201).send({
-      success: 'true',
-      message: total,
-    });
-  })
-  .catch(error => {next(Error(`DB Error:\n${error}`));});
-};
-
-// GET /, GET /tasks
 const getAllPaisesController = (req, res, next) => {
   // components_model.getAll(...params)
   let params = (typeof req.query.params !== 'undefined') ? JSON.parse(req.query.params) : [];
@@ -60,7 +31,6 @@ const getAllPaisesController = (req, res, next) => {
   .catch(error => {next(Error(`DB Error:\n${error}`));});
 };
 
-// GET /tasks/1
 const getAllPaisesProductsController = (req, res, next) => {
   let id = Number(req.params.id);
   let params = (typeof req.query.params !== 'undefined') ? JSON.parse(req.query.params) : [];
@@ -74,7 +44,6 @@ const getAllPaisesProductsController = (req, res, next) => {
   .catch(error => {next(Error(`DB error:\n${error}`));});
 };
 
-// POST /tasks
 const loginController = (req, res, next) => {
   let {user, password} = req.body;
   if(!user || !password)
@@ -134,24 +103,6 @@ const modifyProduct = (req, res, next) => {
 };
 
 
-/* // PATCH /tasks/1/switch
-const switchController = (req, res, next) => {
-  let id = Number(req.params.id);
-  components_model.get(id)
-  .then(task => {
-    components_model.update(id, task.title, !task.done)
-    .then(() => {
-      res.status(201).send({
-        success: 'true',
-        message: 'task updated successfully',
-      });
-    })
-    .catch(error => {next(Error(`task not updated:\n${error}`));});
-  })
-  .catch(error => {next(Error(`A DB Error has occurred:\n${error}`));});
-}; */
-
-
 const errorController = (err, req, res, next) => {
   if (req.originalUrl.includes('/api/'))
     res.status(409).send({
@@ -191,10 +142,8 @@ app.post ('/', loginController);
 app.get   (['/', '/paises'],     getAllPaisesController);
 app.post ('/paises', getAccesController);
 app.post ('/paises/:id/product', modifyProduct);
-app.get   ('/paises/count',     countPaisesController);
 app.get   ('/paises/:id',     getAllPaisesProductsController);
 app.get   ('/product/:id',     getProduct);
-app.get   ('/paises/:id/count',     countPaisesProductsController);
 
 
 app.use(errorController);
