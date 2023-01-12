@@ -45,7 +45,8 @@ const getAllPaisesProductsController = (req, res, next) => {
 };
 
 const loginController = (req, res, next) => {
-  let {user, password} = req.body;
+  let user = req.query.user;
+  let password =  req.query.password;
   if(!user || !password)
     throw Error('user and password is required');
 
@@ -60,7 +61,8 @@ const loginController = (req, res, next) => {
 };
 
 const getAccesController = (req, res, next) => {
-  let {id, user_id} = req.body;
+  let id = req.query.id;
+  let user_id = req.query.user_id;
   if(!id)
     throw Error('Id country are required');
   components_model.getAcces(id, user_id)
@@ -138,10 +140,10 @@ const headersController = (req, res, next) => {
 app.use   ('*',                 logController);
 app.use   ('*',                 headersController);
 
-app.post ('/', loginController);
-app.get   (['/', '/paises'],     getAllPaisesController);
-app.post ('/paises', getAccesController);
-app.post ('/paises/:id/product', modifyProduct);
+app.get ('/', loginController);
+app.get ( '/paises',     getAllPaisesController);
+app.get ('/paises/acces', getAccesController);
+app.put ('/paises/:id/product', modifyProduct);
 app.get   ('/paises/:id',     getAllPaisesProductsController);
 app.get   ('/product/:id',     getProduct);
 

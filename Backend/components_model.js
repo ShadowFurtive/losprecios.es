@@ -89,7 +89,6 @@ exports.getAllProductsFromCountry = (id, where) => {
     if(where[0].product != undefined) val = where[0].product[0];
     if(val != ""){
       let t = listaNueva.filter(e => { return e.name.toLowerCase().includes(val.toLowerCase()); });
-      console.log(t);
       resolve(JSON.parse(JSON.stringify(t)));
     }
     else resolve(JSON.parse(JSON.stringify(listaNueva)));

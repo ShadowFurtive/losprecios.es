@@ -135,7 +135,7 @@ $(function() {
         let price = $(this.id+' input[name=new_price]').val();
         $.ajax({
           dataType: "json",
-          method: "POST",
+          method: "PUT",
           url: this.url + '/paises/'+paisid+'/product',
           data: {id, price}
         })
@@ -150,7 +150,18 @@ $(function() {
             toast: true
           })
         })
-        .catch(error => {console.error(error.status, error.responseText);});
+        .catch(error => {
+          console.error(error.status, error.responseText);
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Incorrect data',
+            text: 'Must be a number',
+            showConfirmButton: false,
+            timer: 3000,
+            toast: true
+          })
+        });
       };
 
       ComponentsVC.prototype.loginController = function() {
@@ -187,9 +198,8 @@ $(function() {
         });
         let p2 = $.ajax({
           dataType: "json",
-          method: "POST",
-          url: this.url + '/paises',
-          data: {id, user_id}
+          url: this.url + '/paises/acces',
+          data: {id: JSON.stringify(id), user_id: JSON.stringify(user_id)}
         });
         Promise.all([p1, p2])
         .then(([r1, r2]) => {
@@ -206,9 +216,8 @@ $(function() {
         let password = $(this.id+' input[name=password]').val();
         $.ajax({
           dataType: "json",
-          method: "POST",
           url: this.url,
-          data: {user, password}
+          data: {user: user, password: password}
         })
         .then(r => {
           this.userId=r.message;
